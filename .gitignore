@@ -3,8 +3,8 @@
 .Rapp.history
 .Rhistory
 .Rproj.user
-data/analyseDiff/*
-data/behavior/*
-renv/library
-renv/staging
-results/*
+R_analysis/data/analyseDiff/*
+R_analysis/data/behavior/*
+R_analysis/renv/library
+R_analysis/renv/staging
+R_analysis/results/*
