@@ -24,11 +24,12 @@ minet_et_al-main/
 │   ├── 1-QC/                 # Quality check FastQC / MultiQC
 │   ├── 2-Trimming/           # Read trimming
 │   ├── 3-Alignment/          # Genome indexation and reads alignment
-│   └── 4-mRNAediting/        # mRNA editing estimation
+│   ├── 4-mRNAediting/        # mRNA editing estimation
+│   └── 5-Annotation/         # Genome / transcript annotation
 └── R_analysis/
     ├── AnalyseDiff_targets.R # Main `targets` script of transcriptomic pipeline
     ├── Behavior_targets.R    # Main `targets` script for behavior pipeline
-    ├── _targets.yaml         # Configuration file for `targets`
+    ├── _targets.yaml	      # Configuration file for `targets`
     ├── renv.lock             # R package versions and metadata
     ├── renv/                 # Scripts to initialize `renv`
     ├── configFiles/          # Some configuration files required to execute the pipeline
@@ -77,7 +78,7 @@ Paths are relative to the `R_analysis/` root folder.
 | Required file					| Retrieved from			| Location			| Usage										|
 |-----------------------------------------------|---------------------------------------|-------------------------------|-------------------------------------------------------------------------------|
 | `Design_Deseq.tsv`				| Available in the GitHub repository	| `configFiles/` 		| Design table for DESeq2 containing sample metadata.				|
-| `*.counts`					| Available from XXXXX			| `data/analyseDiff		| Raw counts retrieved from STAR alignment and used as input for DESeq2.	|
+| `*.counts`					| Available from XXXXX			| `data/analyseDiff`		| Raw counts retrieved from STAR alignment and used as input for DESeq2.	|
 | `mpibr_sepoff_v1.emapper.annotations.xlsx`	| Available in the GitHub repository	| `configFiles/`		| Functional annotation computed by EggNOG-mapper.				|
 | `mpibr_sepoff_v1_annotations.tsv`		| Available in the GitHub repository	| `configFiles/`		| Functional annotation provided with the reference genome.			|
 | `SampleTable.tsv`				| Available in the GitHub repository 	| `configFiles/`		| Metadata used in the mRNA editing part.					|
