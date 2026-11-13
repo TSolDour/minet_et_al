@@ -3,12 +3,16 @@
 .Rapp.history
 .Rhistory
 .Rproj.user
+
 R_analysis/data/analyseDiff/*.counts
 R_analysis/data/analyseDiff/Other/*.csv
 R_analysis/data/behavior/*.xlsx
+
 R_analysis/renv/library
 R_analysis/renv/staging
+
 R_analysis/results/AnalyseDiff/*
 R_analysis/results/AnalyseDiff/!.gitkeep
 R_analysis/results/Behavior/*
 R_analysis/results/Behavior/!.gitkeep
+R_analysis/results/AnalyseDiff/meta

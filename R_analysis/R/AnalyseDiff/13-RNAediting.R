@@ -4,7 +4,8 @@
 # Adapted from a script by Matthew Birk
 #
 ###########################################################################################
-PATH <- here::here("data", "analyseDiff", "Other", "Soff_head_ES.csv")
+
+# ==============================================================================
 # Read Editing Sites tables
 readES <- function(PATH){
   a <- read.csv(PATH, header=TRUE)
@@ -31,6 +32,7 @@ readES <- function(PATH){
   return(a)
 }
 
+# ==============================================================================
 # Tidy the sample table file
 tidySample <- function(file){
   
@@ -42,6 +44,7 @@ a <-  file %>%
   return(a)
 }
 
+# ==============================================================================
 # Make correspondance between samples and treatments
 SampTreat <- function(file){
   
@@ -58,6 +61,7 @@ SampTreat <- function(file){
   return(samples_treatment)
 }
 
+# ==============================================================================
 # Retrieving the known ES from Shoshan2021
 retrieveKnownES <- function(PATH){
   ES = read.table(PATH, sep = '\t', header = TRUE, quote = '')
@@ -67,6 +71,7 @@ retrieveKnownES <- function(PATH){
   
 }
 
+# ==============================================================================
 # Display coverage histogram
 displayCovHist <- function(file){
   
@@ -75,7 +80,7 @@ displayCovHist <- function(file){
   return(a)
 }
 
-
+# ==============================================================================
 # Remove low coverage sites
 rmLowCov <- function(file, SD, COV){
   
@@ -124,6 +129,7 @@ rmLowCov <- function(file, SD, COV){
   return(data_final)
 }
 
+# ==============================================================================
 # Build data as matrix
 buildMat <- function(file, ST){
   
@@ -158,11 +164,7 @@ buildMat <- function(file, ST){
   return(Final)
 }
 
-#file <- tar_read(final.mat)
-#file2 <- tar_read(dCov)
-#FDR1 <- 0.1
-#FDR2 <- 0.05
-
+# ==============================================================================
 rundEL <- function(file, file2, FDR1, FDR2){
   
   meta <- file[, c("Sample", "Treatment", "Mercury", "pCO2")] # Metadata table
@@ -275,8 +277,7 @@ rundEL <- function(file, file2, FDR1, FDR2){
   return(Final.res)
 }
 
-
-#file <- tar_read(dEL)
+# ==============================================================================
 displayTornado <- function(file){
   
   sub_counts <- file %>%
@@ -305,7 +306,7 @@ displayTornado <- function(file){
   return(p)
 }
 
-
+# ==============================================================================
 displayCircos <- function(file, CONTRAST, PATH){
   
   aa <- c("A","C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N", "P", "Q", "R", "S", "T","V", "W", "Y")
@@ -376,13 +377,12 @@ displayCircos <- function(file, CONTRAST, PATH){
   
 }
 
-#file1 <- tar_read(d_all)
-#file2 <- tar_read(d_sampleOK)
-# Calculating the Editing Index
+# ==============================================================================
+# Computing Editing Index
 editingIndex <- function(file1, file2){
   
   samples = gsub('EL_', '', grep('EL_SEP2', colnames(file1), value = TRUE))
-  samples = grep('EL_SEP2', colnames(file1), value = TRUE)
+  #samples = grep('EL_SEP2', colnames(file1), value = TRUE)
   
   ctrl_samples = paste('EL_SEP2', file2[startsWith(file2$Sample, "CT8.1"),]$Sample, sep = '_')
   OA_samples = paste('EL_SEP2', file2[startsWith(file2$Sample, "CT7.7"),]$Sample, sep = '_')
@@ -403,13 +403,15 @@ editingIndex <- function(file1, file2){
   return(EIs)
 }
 
-# Testing difference between treatment with Anova:
+# ==============================================================================
+# Testing difference between treatments with Anova:
 anovaEI <- function(file){
   
   anova(lm(EI ~ treatment, data = file))
   
 }
 
+# ==============================================================================
 # Plotting EI
 plotEI <- function(file){
   
