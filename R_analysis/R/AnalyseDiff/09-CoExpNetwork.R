@@ -59,6 +59,7 @@ softThres <- function(Exp.Matrix) {
   pickSoftThreshold(Exp.Matrix)
 }
 
+
 ################################
 # Plot R^2 values as a function of the soft thresholds
 plotR2 <- function(path, SPT) {

@@ -142,7 +142,7 @@ list(
   #tar_target(PlotTree, plotTree("results/AnalyseDiff/figures/SampleTree.png", sampleTree, H = 64), format = "file"),              # Building coexpression network
   #tar_target(ExpFiltOut, rmOut(sampleTree, ExprFilt, H = 59)),                                                                    #
   tar_target(spt, softThres(ExprFilt)),                                                                                            #
-  tar_target(R2, plotR2(here::here("results", "AnalyseDiff", "figures", "R2.png"), spt, format = "file")),                         #
+  tar_target(R2, plotR2(here::here("results", "AnalyseDiff", "figures", "R2.png"), spt), format = "file"),                         #
   tar_target(meanConnect, plotConnect(here::here("results", "AnalyseDiff", "figures", "meanConnect.png"), spt), format = "file"),  #
   # tar_target(Adj, Adjacency(ExprFilt, 8)),                                                                                       # Adj is the weighted gene co-expression network and contains 23,106 nodes (genes).
   tar_target(net, moduleConstruct(ExprFilt, 7)),                                                                                   # Automatic construction of modules - can avoid the three next targets, go line 154.
