@@ -1,16 +1,15 @@
 # 03_analyses.R ---------------------------------------------------------------
-# Analyses complètes, assemblées à partir des briques de 02_stats_helpers.R.
+# Full analyses built from 02_stats_helpers.R basic functions
 # -----------------------------------------------------------------------------
 
-#' Analyse complète d'une variable en fonction de Condition
-#'
+#' Full analysis of a variable using Condition as explaining variable
 #' @param data     data.frame
-#' @param var      nom de la variable réponse (chaîne)
-#' @param mu       si non NULL : Wilcoxon par condition contre cette valeur
-#' @param post_hoc si TRUE : Tukey HSD + tests par permutation par paires (FDR)
-#' @param np       nb de permutations pour aovperm
-#' @param nperm    nb de permutations pour les tests par paires
-#' @return liste nommée de résultats (tibbles / objets de modèles)
+#' @param var      response variable's name (string)
+#' @param mu       if != NULL : Wilcoxon per condition against this value
+#' @param post_hoc if TRUE : Tukey HSD + permutation pairwise t tests (FDR)
+#' @param np       nb of permutation for aovperm
+#' @param nperm    nb of permutations for pairwise tests
+#' @return named list of results (tibbles / models objects)
 analyse_variable <- function(data, var, mu = NULL, post_hoc = TRUE,
                              np = 5000, nperm = 10000) {
   model <- run_aov(data, var)
@@ -35,12 +34,11 @@ analyse_variable <- function(data, var, mu = NULL, post_hoc = TRUE,
   out
 }
 
-#' ANOVA à mesures répétées Condition x Days (formule Error(1/id) d'origine)
+#' Repeated measures ANOVA Condition x Days (formula Error(1/id))
 #'
-#' @param data_long format long issu de pivot_two_way()
-#' @param response  nom de la variable réponse (chaîne)
-#' @param id        nom de la colonne identifiant l'individu ("Ind" en 2020,
-#'                  "Individu" en 2021)
+#' @param data_long long format from pivot_two_way()
+#' @param response  response variable's name (string)
+#' @param id        Individual variable ("Ind" in 2020, "Individu" in 2021)
 twoway_aov <- function(data_long, response, id) {
   fml <- as.formula(
     paste0(response, " ~ Condition * Days + Error(1 / ", id, ")")
@@ -49,7 +47,7 @@ twoway_aov <- function(data_long, response, id) {
   list(model = mod, summary = summary(mod))
 }
 
-#' ANOVA par permutation à 2 facteurs, mesures répétées : Error(id/Days)
+#' 2-way permutation ANOVA, repeated : Error(id/Days)
 twoway_perm <- function(data_long, response, id) {
   fml <- as.formula(
     paste0(response, " ~ Condition * Days + Error(", id, " / Days)")

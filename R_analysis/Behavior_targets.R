@@ -3,6 +3,9 @@
 # Main script of the targets pipeline managing Behavioral analyses.
 # Created by Antoine Minet and Thomas Sol Dourdin
 # All figures used for the publication are exported with the prefix "Figure"
+# Execute with targets::tar_make()
+# Visualize with targets::tar_visnetwork()
+# Inspect a result with targets::tar_read(res_li_2020_d25)
 # ==============================================================================
 
 
@@ -242,17 +245,22 @@ list(
   tar_target(fig_pca_2021_files, save_pca_figures(res_pca_2021, here::here("results", "Behavior", "figures", "pca_2021"))),
   
   # ===========================================================================
-  # 20. ACP 2020-2021 (sheet "acp2020_2021") : same + cluster figures
+  # 20. ACP 2020-2021 (sheet "acp2020_2021") : Figure 4 (panels a-e) ACP -> HCPC 3 clusters -> tests Condition x Cluster -> export figure et tables
   # ===========================================================================
   tar_target(data_acp, read_data_acp(file1)),
-  tar_target(res_pca_acp, run_pca(data_acp, vars = pca_vars_acp)),
-  tar_target(res_hcpc_acp, run_hcpc(res_pca_acp$pca)),
-  tar_target(tab_clusters_acp, cluster_table(res_hcpc_acp, res_pca_acp$table)),
-  tar_target(res_clusters_acp, test_cluster_table(tab_clusters_acp, within_condition = TRUE)),
-  tar_target(fig_pca_acp_files, save_pca_figures(res_pca_acp, here::here("results", "Behavior", "figures", "Figure4_pca_2020_2021"))),
-  tar_target(fig_clusters_acp, make_cluster_plot(tab_clusters_acp, annotations = cluster_annotations_acp,
-                                                 condition_labels = cluster_condition_labels_acp, palette = "Cavalcanti1")),
-  tar_target(fig_clusters_acp_file, save_figure(fig_clusters_acp, here::here("results", "Behavior", "figures", "Figure4c_clusters_2020_2021.png"), width = 8, height = 4),)
+  tar_target(res_pca_acp, run_pca(data_acp, vars = pca_vars_acp, condition_levels = condition_levels_acp, ncp = 3)),
+  tar_target(res_hcpc_acp, run_hcpc(res_pca_acp$pca, nb_clust = acp_n_clusters)),
+  tar_target(cluster_acp, relabel_clusters_by_profile(res_hcpc_acp, res_pca_acp)),
+  tar_target(counts_acp, make_cluster_counts(res_pca_acp, cluster_acp)),
+  tar_target(check_counts_acp, check_counts_against_reference(counts_acp, reference_counts_acp)),
+  tar_target(audit_missing_acp, audit_missing(data_acp, pca_vars_acp, res_pca_acp$table$Condition)),
+  tar_target(oriented_acp, orient_pca_scores(res_pca_acp, data_acp, cluster_acp)),
+  tar_target(res_clusters_acp, test_condition_clusters(counts_acp)),
+  
+  tar_target(panels_fig4, make_figure4_panels(oriented_acp, counts_acp, exact_match = check_counts_acp$exact_match)),
+  tar_target(fig4, combine_figure4(panels_fig4)),
+  tar_target(fig4_files, save_figure4(fig4, panels_fig4, fig4_out_dir_fig)),
+  tar_target(fig4_tables_files, export_figure4_tables(fig4_out_dir_tab, check_counts_acp, audit_missing_acp, oriented_acp, res_pca_acp, res_hcpc_acp, res_clusters_acp))
 )
 
 # Sys.setenv(TAR_PROJECT="Behavior")

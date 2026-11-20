@@ -1,16 +1,15 @@
 # 04_plot_helpers.R -----------------------------------------------------------
-# Fonction générique de construction d'un panneau (boxplot par condition).
-# Nécessite ggplot2 >= 3.5.0 (argument `staplewidth`).
+# Generic function to build panel.
+# requires ggplot2 >= 3.5.0 (argument `staplewidth`).
 # -----------------------------------------------------------------------------
 
-#' Annotations (une valeur par condition) sous forme de tibble x / y / label / size
-#' Les NA dans `labels` sont ignorés (pas d'annotation pour cette condition).
+#' Annotations
 condition_annotations <- function(labels, y, size) {
   tibble::tibble(x = seq_along(labels), y = y, label = labels, size = size) |>
     dplyr::filter(!is.na(label))
 }
 
-#' Ajoute à un graphique des annotations textuelles (tibble x / y / label / size)
+#' Add a graphic of textual annotations (tibble x / y / label / size)
 add_annotations <- function(p, annotations) {
   if (is.null(annotations)) return(p)
   for (i in seq_len(nrow(annotations))) {
@@ -23,19 +22,18 @@ add_annotations <- function(p, annotations) {
   p
 }
 
-#' Boxplot par condition avec annotations
+#' Per condition boxplot with annotations
 #'
 #' @param data        data.frame
-#' @param y_var       nom de la variable à tracer (chaîne)
-#' @param ylim        limites de l'axe y (coord_cartesian)
-#' @param y_label     titre de l'axe y ("" pour le masquer)
-#' @param annotations tibble x / y / label / size (cf. condition_annotations()),
-#'                    ou NULL
-#' @param year,day    textes d'en-tête (NULL pour ne pas les afficher)
-#' @param year_y,day_y positions y des textes d'en-tête
-#' @param day_size    taille du texte "day"
-#' @param ref_line    ordonnée de la ligne pointillée de référence (NULL = aucune)
-#' @param use_pattern boxplots avec motifs (Hg / CO2_Hg rayés), pour 2021
+#' @param y_var       name of y variable
+#' @param ylim        axe y limits (coord_cartesian)
+#' @param y_label     axe y title ("" pour le masquer)
+#' @param annotations tibble x / y / label / size (cf. condition_annotations())
+#' @param year,day    labels (NULL pour ne pas les afficher)
+#' @param year_y,day_y y coordinates of labels
+#' @param day_size    "day" size
+#' @param ref_line    y coordinate for the dashed reference line
+#' @param use_pattern boxplots with motifs, for 2021
 make_panel <- function(data, y_var, ylim, y_label = "", annotations = NULL,
                        year = NULL, day = NULL,
                        year_y = NULL, day_y = NULL, day_size = 3,

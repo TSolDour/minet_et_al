@@ -1,13 +1,12 @@
 # 07_predation.R --------------------------------------------------------------
-# Succès de prédation (crevettes aux jours 3, 5, 7, 12 ; crabe) :
-# tables longues, tests et figures.
+# Predation success: tables, tests & figures.
 # -----------------------------------------------------------------------------
 
-#' Table longue : une ligne par individu et par jour
-#' @param data   data.frame 2020 ou 2021
-#' @param id_col nom de la colonne d'identifiant ("Ind" en 2020, "Individu" en 2021)
-#' @param days   jours testés (ex. c(3, 5, 7, 12) -> colonnes PredaCre3, ...)
-#' @return tibble : Individuals, Condition, Day (facteur Day3, Day5, ...), success
+#' Table
+#' @param data   data.frame 2020 or 2021
+#' @param id_col Individual variable ("Ind" in 2020, "Individu" in 2021)
+#' @param days   tested days
+#' @return tibble : Individuals, Condition, Day, success
 make_predation_long <- function(data, id_col, days) {
   cols <- paste0("PredaCre", days)
   data |>
@@ -24,9 +23,9 @@ make_predation_long <- function(data, id_col, days) {
     dplyr::arrange(Day)   # même ordre que le script d'origine (jour par jour)
 }
 
-#' Q de Cochran (comparaison des jours) par condition, et McNemar par paires
-#' (permutation, FDR) pour les conditions de `post_hoc`
-#' @return liste nommée par condition (cochran, mcnemar)
+#' Cochran's Q per condition and pairwise McNemar
+#' (permutation, FDR) for `post_hoc` conditions
+#' @return named list
 test_predation_by_condition <- function(long, post_hoc = condition_levels) {
   conds <- levels(long$Condition)
   names(conds) <- conds
@@ -45,7 +44,7 @@ test_predation_by_condition <- function(long, post_hoc = condition_levels) {
   })
 }
 
-#' Test binomial (p = 0.5) du succès, pour chaque condition et chaque jour
+#' Binomial test (p = 0.5) 
 binom_by_day <- function(long) {
   long |>
     dplyr::group_by(Condition, Day) |>
@@ -58,7 +57,7 @@ binom_by_day <- function(long) {
     )
 }
 
-#' Chi-deux entre conditions, séparément pour chaque jour
+#' Chi-square test
 chisq_by_day <- function(long) {
   long |>
     dplyr::group_by(Day) |>
@@ -68,7 +67,7 @@ chisq_by_day <- function(long) {
     dplyr::ungroup()
 }
 
-#' Prédation sur le crabe (2020) : chi-deux entre conditions et binomial par condition
+#' Crabe predation (2020) : chi-square
 test_crab <- function(data) {
   tab <- table(data$Condition, data$PredaCrab_success)
   list(
@@ -83,7 +82,7 @@ test_crab <- function(data) {
   )
 }
 
-#' Un panneau (une condition) : barres empilées de succès (%) par jour
+#' Pannel : barplot
 make_predation_panel <- function(pct, x_label, y_label = "",
                                  annotations = NULL, show_legend = FALSE) {
   p <- ggplot2::ggplot(
@@ -103,8 +102,7 @@ make_predation_panel <- function(pct, x_label, y_label = "",
   add_annotations(p, annotations)
 }
 
-#' Figure complète : un panneau par condition (grille 2 x 2)
-#' @param annotations liste par condition (group_letters, stars), cf. 00_config.R
+#' Whole figure : panel
 make_predation_figure <- function(long, annotations) {
   conds  <- condition_levels
   panels <- lapply(seq_along(conds), function(i) {

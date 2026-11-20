@@ -1,8 +1,8 @@
 # 05_figures.R ----------------------------------------------------------------
-# Panneaux spécifiques à chaque type de variable, assemblage et sauvegarde.
+# Panels specific to each variable type, building and saving.
 # -----------------------------------------------------------------------------
 
-#' Panneau Brightness : ligne de référence à 1, étoiles de significativité
+#' Brightness panel
 make_brightness_panel <- function(data, y_var, year = NULL, day = NULL,
                                   y_label = "", use_pattern = FALSE) {
   make_panel(
@@ -17,7 +17,7 @@ make_brightness_panel <- function(data, y_var, year = NULL, day = NULL,
   )
 }
 
-#' Panneau Disruptive : lettres de groupes homogènes
+#' Disruptive panel
 make_disruptive_panel <- function(data, y_var, labels, year = NULL, day = NULL,
                                   y_label = "", use_pattern = FALSE) {
   make_panel(
@@ -31,9 +31,7 @@ make_disruptive_panel <- function(data, y_var, labels, year = NULL, day = NULL,
   )
 }
 
-#' Panneau Laterality index (LI) : ligne de référence à 0, étoiles et lettres
-#' @param stars         vecteur de 4 (NA = rien), NULL si aucune étoile
-#' @param group_letters vecteur de 4 (NA = rien), NULL si aucune lettre
+#' Laterality index (LI) panel
 make_li_panel <- function(data, y_var, year = NULL, day = NULL, y_label = "",
                           use_pattern = FALSE,
                           stars = NULL, group_letters = NULL) {
@@ -53,8 +51,7 @@ make_li_panel <- function(data, y_var, year = NULL, day = NULL, y_label = "",
   )
 }
 
-#' Panneau pour variables bornées 0-1 (AbsLI, vigilance monoculaire) : pas de
-#' ligne de référence, lettres de groupes optionnelles
+#' Panels for 0-1 variables (AbsLI, vigilance monoculaire)
 make_abs_panel <- function(data, y_var, year = NULL, day = NULL, y_label = "",
                            use_pattern = FALSE, group_letters = NULL) {
   annotations <- if (!is.null(group_letters)) {
@@ -71,20 +68,20 @@ make_abs_panel <- function(data, y_var, year = NULL, day = NULL, y_label = "",
   )
 }
 
-#' Assemble plusieurs panneaux (patchwork). Par défaut : une seule ligne.
+#' assembling several panels (patchwork)
 combine_panels <- function(..., nrow = NULL, ncol = NULL) {
   if (is.null(nrow) && is.null(ncol)) nrow <- 1
   patchwork::wrap_plots(list(...), nrow = nrow, ncol = ncol)
 }
 
-#' Sauvegarde une figure et retourne le chemin (pour tar_target(format = "file"))
+#' save a figure and return path
 save_figure <- function(plot, path, width = 12, height = 4, dpi = 300) {
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
   ggplot2::ggsave(path, plot = plot, width = width, height = height, dpi = dpi)
   path
 }
 
-#' Panneau de locomotion (distance, mobilité) : lettres de groupes homogènes
+#'Locomotion panel (distance, mobility)
 make_locomotion_panel <- function(data, y_var, ylim, y_label, letter_y,
                                   group_letters = labels_locomotion) {
   make_panel(
@@ -95,7 +92,7 @@ make_locomotion_panel <- function(data, y_var, ylim, y_label, letter_y,
   )
 }
 
-#' Panneau de thigmotaxie : texte de p-value et segment de comparaison
+#' Thigmotaxy panel
 make_thigmotaxis_panel <- function(data) {
   annotations <- tibble::tibble(x = 1.5, y = 107,
                                 label = thigmotaxis_p_label, size = 4)

@@ -2,28 +2,26 @@
 # Constantes partagées par tout le pipeline.
 # -----------------------------------------------------------------------------
 
-# Feuilles du fichier Excel
+# Excel sheets
 sheet_2020 <- "data2020"
 sheet_2021 <- "data2021"
 
-# Ordre, couleurs et motifs des conditions
+# Condition aesthetics
 condition_levels   <- c("Ctrl", "CO2", "Hg", "CO2_Hg")
 condition_colors   <- c("green4", "khaki2", "cadetblue", "black")
 condition_patterns <- c("none", "none", "stripe", "stripe")
 
-# Annotations des figures.
-# ATTENTION : ces valeurs sont reportées à la main depuis les résultats
-# statistiques du script d'origine. Elles ne se mettent PAS à jour si les
-# données ou les analyses changent.
-labels_brightness <- rep("*", 4)   # différence significative vs 1 (Wilcoxon)
+# Figure annotation
+# ATTENTION : Theses values are reported manually, they do not update if analyses change.
+labels_brightness <- rep("*", 4)   # significant difference vs 1 (Wilcoxon)
 
-labels_disruptive <- list(         # lettres de groupes homogènes (post-hoc)
+labels_disruptive <- list(         
   d15 = c("a", "b", "b",  "b"),
   d30 = c("a", "b", "bc", "c"),
   d35 = c("a", "c", "b",  "d")
 )
 
-# Colonnes numériques à typer à l'import
+# numerical columns to be formated when imported
 numeric_cols_2020 <- c(
   "Disr15", "Disr30", "Brightness_score15", "Brightness_score30",
   "LI5", "LI14", "LI25", "AbsLI5", "AbsLI14", "AbsLI25",
@@ -35,15 +33,15 @@ numeric_cols_2021 <- c(
   "Disr35", "Brightness_score", "LI14", "AbsLI14", "LI31", "AbsLI31"
 )
 
-# --- Laterality : annotations manuelles (une valeur par condition, NA = rien)
+# --- Laterality : manual annotations
 stars_li <- list(
-  d25 = c("*", NA, NA, NA),   # 2020, jour 25 : Ctrl différent de 0 (Wilcoxon)
-  d31 = c("*", NA, NA, NA)    # 2021, jour 31 : idem
+  d25 = c("*", NA, NA, NA),   # 2020, day 25 : Ctrl different from 0 (Wilcoxon)
+  d31 = c("*", NA, NA, NA)    # 2021, day 31 : idem
 )
-letters_laterality_d31 <- c("a", "b", "ab", "b")  # LI et AbsLI, 2021, jour 31
+letters_laterality_d31 <- c("a", "b", "ab", "b")  # LI et AbsLI, 2021, day 31
 
-# --- Catégories de préférence d'œil -------------------------------------------
-# Effectifs saisis à la main (repris du script d'origine).
+# --- Eye use preference category -------------------------------------------
+# Manually written.
 categories_levels <- c("Ctrl", "CO2", "Hg", "CO2Hg")
 
 categories_counts_2020 <- list(
@@ -59,15 +57,15 @@ categories_counts_2021 <- list(
   CO2Hg = c(left = 7,  right = 9, no_preference = 9)
 )
 
-stars_categories <- list(y2020 = 1, y2021 = c(1, 3))  # positions x des étoiles
+stars_categories <- list(y2020 = 1, y2021 = c(1, 3))  # stars x coordinates
 
 # =============================================================================
-# PARTIE 3 : locomotion, prédation, PCA
+# PART 3 : locomotion, predation, PCA
 # =============================================================================
 
 sheet_acp <- "acp2020_2021"
 
-# --- Colonnes de prédation (facteurs Yes / No) -------------------------------
+# --- Predation cols (facteurs Yes / No) -------------------------------
 factor_cols_2020 <- c("PredaCre3", "PredaCre5", "PredaCre7", "PredaCre12",
                       "PredaCrab_success")
 factor_cols_2021 <- c("PredaCre3", "PredaCre5", "PredaCre7")
@@ -77,16 +75,15 @@ predation_days_2021 <- c(3, 5, 7)
 
 predation_colors <- c(No = "paleturquoise4", Yes = "paleturquoise3")
 
-# Libellés d'axe x des panneaux de prédation
+# X axes titles
 predation_condition_labels <- c(Ctrl = "Ctrl", CO2 = "CO2", Hg = "Hg",
                                 CO2_Hg = "CO2Hg")
 
-# Conditions pour lesquelles les comparaisons par paires entre jours sont
-# calculées (2021 : pas pour Hg, Cochran non significatif)
+# Conditions for which daily pairwise comparisons are comupted
 predation_posthoc_2021 <- c("Ctrl", "CO2", "CO2_Hg")
 
-# Annotations manuelles par condition et par jour (NA = rien).
-# ATTENTION : reportées à la main depuis les résultats du script d'origine.
+# Per condition/day manual annotations
+# ATTENTION : manually reported
 predation_annotations <- list(
   y2020 = list(
     Ctrl   = list(group_letters = c("a", "ab", "bc", "c"),
@@ -111,37 +108,63 @@ predation_annotations <- list(
 )
 
 # --- Locomotion ---------------------------------------------------------------
-labels_locomotion   <- c("a", "b", "a", "ab")  # distance et mobilité
+labels_locomotion   <- c("a", "b", "a", "ab")  # distance et mobility
 thigmotaxis_p_label <- "p = 0.056"
 
 # --- PCA ----------------------------------------------------------------------
-# Les colonnes étaient sélectionnées par position dans le script d'origine
-# (ex. data[, c(5, 8, 9, 13, 21)]) ; elles sont ici nommées explicitement.
-# À VÉRIFIER : ce sont les variables que vous aviez en tête.
 pca_vars_2020 <- c("thigmotaxis", "distance", "Disr30", "Brightness_score30",
                    "LI25")
 pca_vars_2021 <- c("Disr35", "Brightness_score", "LI31")
 pca_vars_acp  <- c("Disr", "Brightness", "LI")   # feuille "acp2020_2021"
 
-# Libellés d'affichage des conditions (noms = valeurs dans les données,
-# ordre = ordre d'affichage)
+# 2020 PCA cluster figure
 cluster_condition_labels_2020 <- c(Ctrl = "Ctrl", CO2 = "CO2", Hg = "Hg",
                                    CO2_Hg = "CO2Hg")
-cluster_condition_labels_acp <- c(
-  Ctrl = "Ctrl", CO2 = "CO2", Hglow = "Hglow", Hghigh = "Hghigh",
-  CO2_Hglow = "CO2Hglow", CO2_Hghigh = "CO2Hghigh"
-)
-
-# Annotations manuelles des figures de clusters
+# manual annotation (a / b, étoiles, #)
 cluster_annotations_2020 <- tibble::tibble(
   x     = c(1:4, 1:4, 1:4),
   y     = rep(c(115, 105, 50), each = 4),
   label = c("a", "b", "b", "b", rep("*", 4), rep("#", 4)),
   size  = rep(c(4, 7, 4), each = 4)
 )
-cluster_annotations_acp <- tibble::tibble(
-  x     = c(1:6, 1:6, 1, 3, 6),
-  y     = c(rep(115, 6), rep(105, 6), 25, 25, 75),
-  label = c("a", "c", "b", "c", "c", "c", rep("*", 6), "#", "#", "#"),
-  size  = c(rep(4, 6), rep(7, 6), 4, 4, 4)
+
+# --- 2020-2021 PCA : Figure 4 (panels a-e) ------------------------------------
+condition_levels_acp <- c("Ctrl", "CO2", "Hglow", "Hghigh",
+                          "CO2_Hglow", "CO2_Hghigh")
+condition_labels_acp <- c("Ctrl", "CO\u2082", "HgLow", "HgHigh",
+                          "CO\u2082+HgLow", "CO\u2082+HgHigh")
+condition_axis_labels_acp <- c("Control", "CO\u2082", "HgLow", "HgHigh",
+                               "CO\u2082+\nHgLow", "CO\u2082+\nHgHigh")
+condition_cols_acp <- c(Ctrl = "#45A844", CO2 = "#DDD24D",
+                        Hglow = "#19BEE0", Hghigh = "#14829C",
+                        CO2_Hglow = "#F59A4A", CO2_Hghigh = "#E15D23")
+cluster_cols_acp <- c("1" = "#E5A84D", "2" = "#58AABD", "3" = "#245C87")
+vector_cols_acp  <- c(Brightness = "#6943C1", LI = "#1779B9", Disr = "#E46C30")
+
+ellipse_level  <- 0.95   # 95 % confidence interval
+acp_n_clusters <- 3      # number of clusters from HCPC
+
+# Original effectif : 
+reference_counts_acp <- matrix(
+  c(3, 6, 45,   29, 23, 2,   5, 7, 15,
+    16, 10, 1,  16, 11, 0,   19, 7, 1),
+  nrow = 6, byrow = TRUE,
+  dimnames = list(condition_levels_acp, c("1", "2", "3"))
 )
+letters_clusters_acp  <- c("a", "c", "b", "c", "c", "c")
+expected_variance_acp <- c(46.3, 33.1)   # Variance % for PC1 & PC2
+
+# Panel c (vectors) : 
+pca_vector_labels <- c(Brightness = "Brightness score",
+                       LI         = "Laterality index",
+                       Disr       = "Disruptive score")
+vector_label_offsets <- tibble::tibble(
+  variable = c("Brightness", "LI", "Disr"),
+  dx       = c(0,   -0.08,  0.18),
+  dy       = c(0.17, 0.14, -0.08),
+  hjust    = c(0.5,  1,     0.5)
+)
+
+# Figure 4 output folder
+fig4_out_dir_fig <- "results/Behavior/figures"
+fig4_out_dir_tab <- "results/Behavior/tables"

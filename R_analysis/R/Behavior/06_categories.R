@@ -1,11 +1,9 @@
 # 06_categories.R -------------------------------------------------------------
-# Catégories de préférence d'œil (gauche / droite / pas de préférence) :
-# construction des tables, tests et figure en barres empilées.
+# Eye use preference categories:
+# building tables, tests & figure
 # -----------------------------------------------------------------------------
 
-#' Construit la table longue condition / Category / numbers
-#' @param counts liste nommée par condition, chaque élément étant un vecteur
-#'               nommé (left, right, no_preference) -- cf. 00_config.R
+# build table condition / Category / numbers
 make_categories_table <- function(counts) {
   tibble::tibble(
     condition = factor(rep(names(counts), each = 3), levels = categories_levels),
@@ -17,7 +15,7 @@ make_categories_table <- function(counts) {
   )
 }
 
-#' Ajoute les pourcentages par condition et ordonne les catégories (pour le graphique)
+# Add percentages per condition and order categories
 categories_to_percent <- function(tbl) {
   tbl |>
     dplyr::group_by(condition) |>
@@ -28,10 +26,7 @@ categories_to_percent <- function(tbl) {
     )
 }
 
-#' Tests sur la table de catégories
-#'  - fisher : différence de répartition entre conditions
-#'  - chisq  : écart à 1/3 par catégorie, pour chaque condition
-#'  - binom  : parmi les individus latéralisés (gauche + droite), écart à 50 %
+
 test_categories <- function(tbl) {
   xt <- xtabs(numbers ~ condition + Category, data = tbl)
 
@@ -55,9 +50,8 @@ test_categories <- function(tbl) {
   )
 }
 
-#' Barres empilées (%) de préférence d'œil par condition
-#' @param tbl_percent sortie de categories_to_percent()
-#' @param star_x      positions x des étoiles (NULL = aucune)
+# Building the barplot
+#' @param tbl_percent categories_to_percent() output
 make_category_plot <- function(tbl_percent, year, star_x = NULL,
                                y_label = "", show_legend = FALSE) {
   p <- ggplot2::ggplot(

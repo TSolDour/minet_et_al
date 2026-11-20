@@ -1,8 +1,8 @@
 # 01_import.R -----------------------------------------------------------------
-# Import, typage et vérification des données.
+# Import, typing & data check.
 # -----------------------------------------------------------------------------
 
-#' Vérifie la présence des colonnes attendues et la validité de Condition
+#' Check if expected cols are present and Condition validy
 check_data <- function(data, required_cols) {
   missing_cols <- setdiff(required_cols, names(data))
   if (length(missing_cols) > 0) {
@@ -14,7 +14,7 @@ check_data <- function(data, required_cols) {
   data
 }
 
-#' Importe et type les données 2020
+#' Import and format 2020 data
 read_data_2020 <- function(path, sheet = sheet_2020) {
   readxl::read_excel(path, sheet = sheet) |>
     dplyr::mutate(
@@ -28,7 +28,7 @@ read_data_2020 <- function(path, sheet = sheet_2020) {
                  factor_cols_2020, numeric_cols_2020))
 }
 
-#' Importe et type les données 2021
+#' Import and format 2021 data
 read_data_2021 <- function(path, sheet = sheet_2021) {
   readxl::read_excel(path, sheet = sheet) |>
     dplyr::mutate(
@@ -42,9 +42,7 @@ read_data_2021 <- function(path, sheet = sheet_2021) {
                  factor_cols_2021, numeric_cols_2021))
 }
 
-#' Importe la feuille de l'ACP combinée 2020-2021
-#' Condition y contient 6 modalités (Hglow, Hghigh, ...) : on ne force donc pas
-#' les niveaux de condition_levels (ordre alphabétique, comme dans l'original).
+#' Import 202-2021 PCA sheet
 read_data_acp <- function(path, sheet = sheet_acp) {
   readxl::read_excel(path, sheet = sheet) |>
     dplyr::mutate(
@@ -52,5 +50,5 @@ read_data_acp <- function(path, sheet = sheet_acp) {
       Ind       = as.factor(Ind),
       dplyr::across(dplyr::any_of(pca_vars_acp), as.numeric)
     ) |>
-    check_data(c("Ind", "Condition", pca_vars_acp))
+    check_data(c("Annee", "Ind", "Condition", pca_vars_acp))
 }
