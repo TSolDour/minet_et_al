@@ -78,11 +78,11 @@ Paths are relative to the `R_analysis/` root folder.
 | Required file					| Retrieved from			| Location			| Usage										|
 |-----------------------------------------------|---------------------------------------|-------------------------------|-------------------------------------------------------------------------------|
 | `Design_Deseq.tsv`				| Available in the GitHub repository	| `configFiles/` 		| Design table for DESeq2 containing sample metadata.				|
-| `*.counts`					| Available from XXXXX			| `data/analyseDiff`		| Raw counts retrieved from STAR alignment and used as input for DESeq2.	|
+| `*.counts`					| Available from https://doi.org/10.48579/PRO/P8OMYV			| `data/analyseDiff`		| Raw counts retrieved from STAR alignment and used as input for DESeq2.	|
 | `mpibr_sepoff_v1.emapper.annotations.xlsx`	| Available in the GitHub repository	| `configFiles/`		| Functional annotation computed by EggNOG-mapper.				|
 | `mpibr_sepoff_v1_annotations.tsv`		| Available in the GitHub repository	| `configFiles/`		| Functional annotation provided with the reference genome.			|
 | `SampleTable.tsv`				| Available in the GitHub repository 	| `configFiles/`		| Metadata used in the mRNA editing part.					|
-| `Soff_head_ES.csv`				| Available from XXXXX			| `data/analyseDiff/Other/`	| Editing levels used as input for the mRNA editing part.			|
+| `Soff_head_ES.csv`				| Available from https://doi.org/10.48579/PRO/P8OMYV			| `data/analyseDiff/Other/`	| Editing levels used as input for the mRNA editing part.			|
 | `editing_sites_Shoshan2021.txt`		| Available in the GitHub repository	| `configFiles/`		| Known mRNA editing sites.							|
 
 The transcriptomic pipeline produces files to be used by the GO_MWU utils and process GO_MWU outputs. But GO_MWU itself is not included in the `targets` pipeline and the GO_MWU.R script should be independently executed. It is located in `R/AnalyseDiff/GOMWU` with its dependencies. 
@@ -92,7 +92,7 @@ The transcriptomic pipeline produces files to be used by the GO_MWU utils and pr
 
 | Required file		| Retrieved from	| Location		| Usage								|
 |-----------------------|-----------------------|-----------------------|---------------------------------------------------------------|
-| `Minet_et_al.xlsx`	| Available from XXXXX	| `data/behavior/`	| File containing all data used in the behavioral analysis	|
+| `Minet_et_al.xlsx`	| Available from https://doi.org/10.48579/PRO/P8OMYV	| `data/behavior/`	| File containing all data used in the behavioral analysis	|
 
 `Minet_et_al.xlsx`should contain 3 sheets: 
 
